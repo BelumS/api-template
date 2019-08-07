@@ -6,6 +6,18 @@ spring:
     consumer:
       group-id:
   application:
-    name: api-template
+    name: "api-template"
+
+api:
+  name: "${spring.application.name}"
+  description: "A base template for a RESTful service"
+  base-path: "api/"
+    v1: "${api.base-path}/v1"
+    v2: "${api.base-path}/v2"
+
 server:
   port: 8443
+
+logging:
+  level:
+    root: info
