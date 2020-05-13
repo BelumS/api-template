@@ -1,17 +1,11 @@
 package com.belum.apitemplate.config.security;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -33,14 +27,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //endregion
 
 //region CONSTRUCTORS
-    public SecurityConfig(){}
 //endregion
 
 //region HELPER METHODS
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests();
+        http.authorizeRequests().anyRequest().permitAll();
         http.cors();
         http.csrf();
         super.configure(http);
@@ -48,11 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-       web.ignoring().antMatchers("/actuator/health");
+        web.ignoring().antMatchers("/actuator/health", "/api/v1/**");
     }
     //endregion
 
-//region BEANS
+    //region BEANS
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();
@@ -62,16 +55,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setExposedHeaders(Collections.unmodifiableList(Collections.singletonList(CONTENT_TYPE)));
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
-        return  source;
+        return source;
     }
 
-    @Bean
+/*    @Bean
     public FilterRegistrationBean myFilterRegistration(){
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.setEnabled(true);
+        filterRegistrationBean.setEnabled(false);
         filterRegistrationBean.setOrder(0);
-        filterRegistrationBean.setFilter(null);
+        filterRegistrationBean.setFilter(new SecurityFilter());
         return filterRegistrationBean;
-    }
+    }*/
 //endregion
 }

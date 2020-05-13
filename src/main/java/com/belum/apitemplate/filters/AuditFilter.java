@@ -1,3 +1,4 @@
+/*
 package com.belum.apitemplate.filters;
 
 import org.springframework.stereotype.Component;
@@ -9,9 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+*/
 /**
  * Created by bel-sahn on 7/30/19
- */
+ *//*
+
 @Component
 public class AuditFilter extends OncePerRequestFilter {
 //region PROPERTIES
@@ -30,3 +33,4 @@ public class AuditFilter extends OncePerRequestFilter {
     }
 //endregion
 }
+*/
