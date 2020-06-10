@@ -11,8 +11,8 @@ import java.io.Serializable;
 public class Example implements Serializable {
 //region PROPERTIES
     private static final long serialVersionUID = 1L;
-    private String key;
-    private String value;
+    private String key = "key";
+    private String value = "value";
 //endregion
 
 //region CONSTRUCTORS
