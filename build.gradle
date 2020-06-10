@@ -3,6 +3,19 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import org.apache.tools.ant.filters.ReplaceTokens
 
+buildscript {
+    ext {
+        springBootVersion = '2.1.6.RELEASE'
+        logbackVersion = '1.2.3'
+        swaggerVersion = '2.4.0'
+        junitVersion = '5.6.0'
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+    }
+}
+
 plugins {
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'java'
@@ -20,7 +33,11 @@ apply plugin: 'io.spring.dependency-management'
 
 group = 'com.belum'
 version = '0.0.1-SNAPSHOT'
+
 sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+def branch = System.getProperty("sourceBranch")
 
 configurations {
     developmentOnly
@@ -34,6 +51,36 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+
+bootRun {
+    def serverPort = '8080'
+    def serverContextPath = '/api-template'
+    def environment = System.getProperty('environment', 'local-bootrun')
+    def appConfig = System.getProperty('app.config', "$projectDir/build/config")
+
+    def logsDir = System.getProperty('logFilePath', "$projectDir/build/tmp/logs")
+    def logsFolder = new File(logsDir)
+    if(!logsFolder.exists()){ logsFolder.mkdirs()}
+
+    def appConfigFolder = new File(appConfig)
+    if(!logsFolder.exists()) { appConfigFolder.mkdirs()}
+
+     jvmArgs = [
+            "-Xdebug",
+            "-Dserver.contextPath=$serverContextPath",
+            "-Denvironment=$environment",
+            "-Dlogging.config=classpath:logback-spring.xml",
+            "-DlogFilePath=$logsDir",
+            "-Dapp.config=$appConfig",
+            "-Dserver.port=$serverPort",
+            "-Dwebapp.baseUrl=http://localhost:$serverPort/",
+            "-Djavax.net.ssl.trustStore=$projectDir/security/api_truststore.jks",
+            "-Djavax.net.ssl.keyStore=$projectDir/security/api_keystore.jks",
+            "-Djavax.net.ssl.trustStorePassword=pw",
+            "-Djavax.net.ssl.KeyStorePassword=pw"
+    ]
 }
 
 dependencies {
@@ -50,13 +97,14 @@ dependencies {
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'org.springframework.cloud:spring-cloud-starter:2.1.2.RELEASE'
 
-    implementation 'ch.qos.logback:logback-core:1.2.3'
-    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation "ch.qos.logback:logback-core:$logbackVersion"
+    implementation "ch.qos.logback:logback-classic:$logbackVersion"
+    implementation "ch.qos.logback:logback-access:$logbackVersion"
 
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'com.auth0:java-jwt:3.8.1'
-    implementation 'io.springfox:springfox-swagger2:2.9.2'
-    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+    implementation "io.springfox:springfox-swagger2:$swaggerVersion"
+    implementation "io.springfox:springfox-swagger-ui:$swaggerVersion"
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -66,13 +114,29 @@ dependencies {
     testImplementation 'com.github.fakemongo:fongo:2.1.0'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
+
+    // Only needed to run tests in a version of IntelliJ IDEA that bundles older versions
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:1.6.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$junitVersion"
 }
 
 processResources {
     filter ReplaceTokens, tokens: [
         "application.version": version.toString(),
         "application.buildTimestamp": getDate(),
+        "application.branch": branch.toString(),
     ]
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
 
 static String getDate() {
