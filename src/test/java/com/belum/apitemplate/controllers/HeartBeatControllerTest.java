@@ -21,6 +21,7 @@ public class HeartBeatControllerTest {
         ReflectionTestUtils.setField(heartBeat, "applicationVersion", VERSION);
         ReflectionTestUtils.setField(heartBeat, "applicationTimestamp", BUILD_TIMESTAMP);
         ReflectionTestUtils.setField(heartBeat, "applicationEnvironment", ENV);
+        ReflectionTestUtils.setField(heartBeat, "applicationBranch", BRANCH);
 
         controller = new HeartBeatController(heartBeat);
     }

@@ -32,7 +32,8 @@ public class HeartBeatController {
                 heartBeat.getApplicationName(),
                 heartBeat.getApplicationVersion(),
                 heartBeat.getApplicationTimestamp(),
-                heartBeat.getApplicationEnvironment());
+                heartBeat.getApplicationEnvironment(),
+                heartBeat.getApplicationBranch());
         log.info(" --~-~-~-- HEARTBEAT --~-~-~-- \n{}", details);
         return details;
     }

@@ -16,7 +16,7 @@ public class AppDetailsTest {
 
     @Before
     public void setup() {
-        details = new AppDetails(NAME, VERSION, BUILD_TIMESTAMP, ENV);
+        details = new AppDetails(NAME, VERSION, BUILD_TIMESTAMP, ENV, BRANCH);
     }
 
     @Test
@@ -42,6 +42,11 @@ public class AppDetailsTest {
     @Test
     public void testGetEnv() {
         assertEquals(ENV, details.getEnv());
+    }
+
+    @Test
+    public void testGetBranch() {
+        assertEquals(BRANCH, details.getBranch());
     }
 
     @Test
