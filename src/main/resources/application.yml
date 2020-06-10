@@ -10,6 +10,7 @@ spring:
     description: A base template for a RESTful service
     version: "@application.version@"
     timestamp: "@application.buildTimestamp@"
+    branch: "@application.branch@"
     environment: ${ENV}
 
 #api:
@@ -21,7 +22,8 @@ spring:
 
 server:
   port: 8080
+  contextPath: /api-template
 
-logging:
-  level:
-    root: info
+logback:
+  appender: consoleColor
+  level: DEBUG

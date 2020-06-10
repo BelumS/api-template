@@ -2,6 +2,28 @@
 <configuration>
     <springProperty scope="context" name="serviceName" source="spring.application.name"/>
 
+<!--    <property resource="config/environments/${environment}.properties"/>-->
+
+    <property name="maxFileSize" value="${logback.maxFileSize:-25MB}"/>
+    <property name="maxHistory" value="${logback.maxHistory:-3}"/>
+    <property name="totalSizeCap" value="${logback.totalSizeCap:-300MB}"/>
+    <property name="logLevel" value="${logback.logLevel:-INFO}"/>
+    <property name="appender" value="${logback.appender:-Async-Appender}"/>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logFilePath}/api-template.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${logFilePath}/api-template-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{ISO8601} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
@@ -16,15 +38,15 @@
         </encoder>
     </appender>
 
-    <springProfile name="default">
-        <root level="debug">
-            <appender-ref ref="consoleColor"/>
-        </root>
-    </springProfile>
+    <appender name="Async-Appender" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE"/>
+        <queueSize>512</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <maxFlushTime>1000</maxFlushTime>
+        <neverBlock>true</neverBlock>
+    </appender>
 
-    <springProfile name="dev">
-        <root level="debug">
-            <appender-ref ref="console"/>
-        </root>
-    </springProfile>
+    <root level="${logLevel}">
+        <appender-ref ref="${appender}"/>
+    </root>
 </configuration>
