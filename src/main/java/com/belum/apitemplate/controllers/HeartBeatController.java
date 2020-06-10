@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.lang.invoke.MethodHandles;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("/heartbeat")
 @RequiredArgsConstructor
 public class HeartBeatController {
     private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -26,7 +26,7 @@ public class HeartBeatController {
     @Autowired
     private final HeartBeat heartBeat;
 
-    @GetMapping("/heartbeat")
+    @GetMapping
     public AppDetails getApplicationDetails() {
         AppDetails details = new AppDetails(
                 heartBeat.getApplicationName(),

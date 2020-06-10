@@ -15,7 +15,7 @@ import java.lang.invoke.MethodHandles;
  * Created by bel-sahn on 7/29/19
  */
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("${api.basePath}/${api.version.v1}")
 public class ExampleController {
 //region PROPERTIES
     private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

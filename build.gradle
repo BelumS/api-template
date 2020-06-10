@@ -68,13 +68,12 @@ bootRun {
     if(!logsFolder.exists()) { appConfigFolder.mkdirs()}
 
      jvmArgs = [
-            "-Xdebug",
-            "-Dserver.contextPath=$serverContextPath",
             "-Denvironment=$environment",
             "-Dlogging.config=classpath:logback-spring.xml",
             "-DlogFilePath=$logsDir",
             "-Dapp.config=$appConfig",
             "-Dserver.port=$serverPort",
+            "-Dlogback.appender=consoleColor",
             "-Dwebapp.baseUrl=http://localhost:$serverPort/",
             "-Djavax.net.ssl.trustStore=$projectDir/security/api_truststore.jks",
             "-Djavax.net.ssl.keyStore=$projectDir/security/api_keystore.jks",
