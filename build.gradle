@@ -54,16 +54,17 @@ repositories {
 }
 
 bootRun {
-    def serverPort = '8080'
-    def serverContextPath = '/api-template'
-    def environment = System.getProperty('environment', 'local-bootrun')
-    def appConfig = System.getProperty('app.config', "$projectDir/build/config")
+    String serverPort = System.getenv('SERVER_PORT')
+    String environment = System.getenv('ENV')
+    String logbackAppender = System.getenv('LOGBACK_APPENDER')
+    String keyStorePw = System.getenv('KEYSTORE_PW')
+    def appConfig = System.getProperty('app.config', "$projectDir/tmp/config")
 
-    def logsDir = System.getProperty('logFilePath', "$projectDir/build/tmp/logs")
-    def logsFolder = new File(logsDir)
+    def logsDir = System.getProperty('logFilePath', "$projectDir/tmp/logs")
+    File logsFolder = new File(logsDir)
     if(!logsFolder.exists()){ logsFolder.mkdirs()}
 
-    def appConfigFolder = new File(appConfig)
+    File appConfigFolder = new File(appConfig)
     if(!logsFolder.exists()) { appConfigFolder.mkdirs()}
 
      jvmArgs = [
@@ -72,12 +73,12 @@ bootRun {
             "-DlogFilePath=$logsDir",
             "-Dapp.config=$appConfig",
             "-Dserver.port=$serverPort",
-            "-Dlogback.appender=consoleColor",
+            "-Dlogback.appender=$logbackAppender",
             "-Dwebapp.baseUrl=http://localhost:$serverPort/",
             "-Djavax.net.ssl.trustStore=$projectDir/security/api_truststore.jks",
             "-Djavax.net.ssl.keyStore=$projectDir/security/api_keystore.jks",
-            "-Djavax.net.ssl.trustStorePassword=pw",
-            "-Djavax.net.ssl.KeyStorePassword=pw"
+            "-Djavax.net.ssl.trustStorePassword=$keyStorePw",
+            "-Djavax.net.ssl.KeyStorePassword=$keyStorePw"
     ]
 }
 

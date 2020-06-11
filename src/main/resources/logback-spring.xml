@@ -24,13 +24,13 @@
         </encoder>
     </appender>
 
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <appender name="consoleColor" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="STDOUT_COLOR" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>
                 %d{ISO8601}|${serviceName:-SERVICE}|%highlight(%p)|[%thread]|%logger{36} - %highlight(%m%n)
@@ -38,7 +38,7 @@
         </encoder>
     </appender>
 
-    <appender name="Async-Appender" class="ch.qos.logback.classic.AsyncAppender">
+    <appender name="Async_Appender" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="FILE"/>
         <queueSize>512</queueSize>
         <discardingThreshold>0</discardingThreshold>
