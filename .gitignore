@@ -5,13 +5,13 @@ build/
 !**/src/test/**
 *.class
 *.DS_Store
+*.fpr
+tmp/
 
 ### Gradle ###
-.gradle
-/.gradle/
-/gradle/
+.gradle/
+gradle/
 /target/
-*.fpr
 gradlew
 gradlew.bat
 
