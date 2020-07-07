@@ -18,17 +18,12 @@ import java.util.Map;
  */
 @Configuration
 public class PublisherConfig {
-//region PROPERTIES
     private final Environment env;
-//endregion
 
-//region CONSTRUCTORS
     public PublisherConfig(Environment env) {
         this.env = env;
     }
-//endregion
 
-//region BEANS
     @Bean
     public Map<String, Object> publisherProperties() {
         final Map<String, Object> props = new HashMap<>();
@@ -47,10 +42,4 @@ public class PublisherConfig {
     public KafkaTemplate<String, Object> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
-
-
-//endregion
-
-//region HELPER METHODS
-//endregion
 }

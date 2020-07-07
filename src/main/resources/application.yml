@@ -1,27 +1,30 @@
 spring:
+  application:
+    name: api-template
+    description: A base template for a RESTful service
+    version: "@application.version@"
+    timestamp: "@application.buildTimestamp@"
+    branch: "@application.branch@"
+    environment: ${ENV}
+  profiles.active: default
   kafka:
     bootstrap-servers:
     template:
       default-topic:
     consumer:
       group-id:
-  application:
-    name: api-template
-    description: A base template for a RESTful service
-    version: "@application.version@"
-    timestamp: "@application.buildTimestamp@"
-    environment: ${ENV}
 
-#api:
-#  name: ${spring.application.name}
-#  description: A base template for a RESTful service
-#  basePath: "api/"
-#    v1: "v1"
-#    v2: "v2"
+api:
+  basePath: "api/"
+  version:
+    v1: "v1"
+    v2: "v2"
 
 server:
   port: 8080
+  servlet:
+    contextPath: "/${spring.application.name}"
 
-logging:
-  level:
-    root: info
+logback:
+  appender: STDOUT_COLOR
+  level: DEBUG

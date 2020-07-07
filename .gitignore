@@ -12,6 +12,8 @@ build/
 /gradle/
 /target/
 *.fpr
+gradlew
+gradlew.bat
 
 ### STS ###
 .apt_generated

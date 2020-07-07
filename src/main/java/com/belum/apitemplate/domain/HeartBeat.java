@@ -22,4 +22,7 @@ public class HeartBeat {
 
     @Value("${spring.application.environment}")
     private String applicationEnvironment;
+
+    @Value("${spring.application.branch}")
+    private String applicationBranch;
 }
