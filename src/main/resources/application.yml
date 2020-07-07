@@ -26,5 +26,5 @@ server:
     contextPath: "/${spring.application.name}"
 
 logback:
-  appender: consoleColor
+  appender: STDOUT_COLOR
   level: DEBUG
