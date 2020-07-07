@@ -2,6 +2,7 @@ package com.belum.apitemplate.config;
 
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
@@ -16,18 +17,14 @@ import java.util.Map;
 /**
  * Created by bel-sahn on 7/30/19
  */
+@Configuration
 public class SubscriberConfig {
-//region PROPERTIES
     private final Environment env;
-//endregion
 
-//region CONSTRUCTORS
     public SubscriberConfig(Environment env) {
         this.env = env;
     }
-//endregion
 
-//region BEANS
     @Bean
     Map<String, Object> subscriberProps() {
         final Map<String, Object> props = new HashMap<>();
@@ -48,8 +45,4 @@ public class SubscriberConfig {
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }
-//endregion
-
-//region HELPER METHODS
-//endregion
 }

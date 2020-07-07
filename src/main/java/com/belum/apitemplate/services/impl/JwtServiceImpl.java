@@ -24,18 +24,13 @@ import java.time.temporal.ChronoUnit;
  */
 @Service
 public class JwtServiceImpl implements JwtService {
-//region PROPERTIES
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final Environment env;
-//endregion
 
-//region CONSTRUCTORS
     public JwtServiceImpl(Environment env) {
         this.env = env;
     }
-//endregion
 
-//region HELPER MTHODSE
     @Override
     public String createJwt(ClientInfo payload) throws UnsupportedEncodingException {
         Validate.notNull(payload);
@@ -76,5 +71,4 @@ public class JwtServiceImpl implements JwtService {
     private Algorithm getAlgorithm() {
         return Algorithm.HMAC256("");
     }
-//endregion
 }

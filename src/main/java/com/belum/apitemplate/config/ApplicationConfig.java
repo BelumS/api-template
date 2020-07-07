@@ -25,11 +25,8 @@ import java.util.Collections;
 @EnableCaching
 @EnableRetry
 public class ApplicationConfig {
-//region CONSTRUCTORS
     public ApplicationConfig(){}
-//endregion
 
-//region BEANS
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) { return builder.build();}
 
@@ -53,7 +50,6 @@ public class ApplicationConfig {
         retryPolicy.setMaxAttempts(3);
         retryTemplate.setRetryPolicy(retryPolicy);
 
-        return  retryTemplate;
+        return retryTemplate;
     }
-//endregion
 }

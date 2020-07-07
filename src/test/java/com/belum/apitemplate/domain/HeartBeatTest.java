@@ -21,6 +21,7 @@ public class HeartBeatTest {
         ReflectionTestUtils.setField(heartBeat, "applicationVersion", VERSION);
         ReflectionTestUtils.setField(heartBeat, "applicationTimestamp", BUILD_TIMESTAMP);
         ReflectionTestUtils.setField(heartBeat, "applicationEnvironment", ENV);
+        ReflectionTestUtils.setField(heartBeat, "applicationBranch", BRANCH);
     }
 
     @Test
@@ -46,5 +47,10 @@ public class HeartBeatTest {
     @Test
     public void testGetEnv() {
         assertEquals(ENV, heartBeat.getApplicationEnvironment());
+    }
+
+    @Test
+    public void testGetBranch() {
+        assertEquals(BRANCH, heartBeat.getApplicationBranch());
     }
 }

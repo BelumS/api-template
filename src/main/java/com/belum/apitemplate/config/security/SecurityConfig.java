@@ -30,18 +30,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //endregion
 
 //region HELPER METHODS
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().anyRequest().permitAll();
         http.cors();
-        http.csrf();
+        http.csrf().disable();
         super.configure(http);
     }
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/actuator/health", "/api/v1/**");
+        web.ignoring().antMatchers("/actuator/health/**", "/heartbeat/**", "/api/v1/**");
     }
     //endregion
 

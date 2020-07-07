@@ -8,15 +8,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class ExampleRepositoryImpl implements ExampleRepository {
-//region PROPERTIES
-//endregion
 
-//region CONSTRUCTORS
-//endregion
-
-//region GETTERS/SETTERS
-//endregion
-
-//region HELPER METHODS
-//endregion
 }

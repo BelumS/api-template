@@ -15,17 +15,9 @@ import java.lang.invoke.MethodHandles;
  * Created by bel-sahn on 7/29/19
  */
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("${api.basePath}/${api.version.v1}")
 public class ExampleController {
-//region PROPERTIES
     private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-//endregion
-
-//region CONSTRUCTORS
-    public ExampleController(){}
-//endregion
-
-//region HELPER METHODS
 
     @GetMapping("/resource")
     @ApiOperation(value = "Get Resource", notes = "Returns an example resource")
@@ -33,5 +25,4 @@ public class ExampleController {
         log.info("Getting resource...");
         return ResponseEntity.ok(new Example());
     }
-//endregion
 }
