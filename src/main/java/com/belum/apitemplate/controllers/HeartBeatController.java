@@ -23,7 +23,6 @@ public class HeartBeatController {
     private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @NonNull
-    @Autowired
     private final HeartBeat heartBeat;
 
     @GetMapping

@@ -16,23 +16,14 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClientInfo {
-//region PROPERTIES
     @JsonIgnore
     private String clientId;
+
     @JsonIgnore
     private String clientSecret;
+
     private String issuer;
     private String subject;
     private LocalDate issuedAt;
     private LocalDate expiresAt;
-//endregion
-
-//region CONSTRUCTORS
-//endregion
-
-//region GETTERS/SETTERS
-//endregion
-
-//region HELPER METHODS
-//endregion
 }

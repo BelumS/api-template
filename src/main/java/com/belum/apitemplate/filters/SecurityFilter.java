@@ -17,21 +17,9 @@ import java.io.IOException;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
-//region PROPERTIES
-//endregion
-
-//region CONSTRUCTORS
-//endregion
-
-//region GETTERS/SETTERS
-//endregion
-
-//region HELPER METHODS
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         filterChain.doFilter(request, response);
     }
-//endregion
 }
 */

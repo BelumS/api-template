@@ -8,19 +8,7 @@ import java.io.Serializable;
  * Created by bel-sahn on 7/30/19
  */
 @Data
-public class Example implements Serializable {
-//region PROPERTIES
-    private static final long serialVersionUID = 1L;
+public class Example {
     private String key = "key";
     private String value = "value";
-//endregion
-
-//region CONSTRUCTORS
-//endregion
-
-//region GETTERS/SETTERS
-//endregion
-
-//region HELPER METHODS
-//endregion
 }
