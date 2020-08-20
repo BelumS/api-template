@@ -12,7 +12,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by bel-sahn on 7/29/19
@@ -20,38 +20,30 @@ import java.util.Collections;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-//region PROPERTIES
-//endregion
 
-//region CONSTRUCTORS
-//endregion
-
-//region BEANS
     @Bean
-    public Docket apiV1(){
+    public Docket apiV1() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("v1")
                 .apiInfo(apiInfo())
-                .globalOperationParameters(Collections.singletonList(apiParam()))
+                .globalOperationParameters(List.of(apiParam()))
                 .select()
                 .paths(PathSelectors.ant("/api/v1/**"))
                 .build();
     }
 
     @Bean
-    public Docket apiV2(){
+    public Docket apiV2() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("v2")
                 .apiInfo(apiInfo())
-                .globalOperationParameters(Collections.singletonList(apiParam()))
+                .globalOperationParameters(List.of(apiParam()))
                 .select()
                 .paths(PathSelectors.ant("/api/v2/**"))
                 .build();
     }
-//endregion
 
-//region HELPER METHODS
-    private ApiInfo apiInfo(){
+    private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("")
                 .description("")
@@ -66,5 +58,4 @@ public class SwaggerConfig {
                 .required(false)
                 .build();
     }
-//endregion
 }

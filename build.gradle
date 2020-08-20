@@ -5,9 +5,9 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 buildscript {
     ext {
-        springBootVersion = '2.1.6.RELEASE'
+        springBootVersion = '2.3.1.RELEASE'
         logbackVersion = '1.2.3'
-        swaggerVersion = '2.4.0'
+        swaggerVersion = '3.0.0'
         junitVersion = '5.6.0'
     }
 
@@ -17,7 +17,7 @@ buildscript {
 }
 
 plugins {
-    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'org.springframework.boot' version "$springBootVersion"
     id 'java'
     id 'idea'
 }
@@ -68,6 +68,7 @@ bootRun {
     if(!logsFolder.exists()) { appConfigFolder.mkdirs()}
 
      jvmArgs = [
+            "-Djava --add-opens java.base/java.lang=ALL-UNNAMED",
             "-Denvironment=$environment",
             "-Dlogging.config=classpath:logback-spring.xml",
             "-DlogFilePath=$logsDir",
@@ -89,12 +90,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.springframework.boot:spring-boot-configuration-processor'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
-    implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-tomcat'
     implementation 'org.springframework.kafka:spring-kafka'
-    implementation 'org.springframework.cloud:spring-cloud-starter:2.1.2.RELEASE'
 
     implementation "ch.qos.logback:logback-core:$logbackVersion"
     implementation "ch.qos.logback:logback-classic:$logbackVersion"
@@ -106,7 +105,7 @@ dependencies {
     implementation "io.springfox:springfox-swagger-ui:$swaggerVersion"
 
     compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    //developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'

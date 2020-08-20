@@ -3,6 +3,7 @@
     <springProperty scope="context" name="serviceName" source="spring.application.name"/>
 
     <property resource="application.yml"/>
+    <property resource="misc/log-masking.properties"/>
 
     <property name="maxFileSize" value="${logback.maxFileSize:-25MB}"/>
     <property name="maxHistory" value="${logback.maxHistory:-3}"/>
@@ -20,13 +21,13 @@
             <totalSizeCap>${totalSizeCap}</totalSizeCap>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{ISO8601} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>d{ISO8601}|${serviceName:-SERVICE}|[%thread]|%-5level|%logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>d{ISO8601}|${serviceName:-SERVICE}|[%thread]|%-5level|%logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -37,6 +38,25 @@
             </pattern>
         </encoder>
     </appender>
+
+<!--    <appender name="STDOUT_MASK" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="com.belum.apitemplate.utils.PatternMaskingLayout">
+                <maskPattern>${FIRST_NAME_JSON}</maskPattern>
+                <maskPattern>${MIDDLE_NAME_JSON}</maskPattern>
+                <maskPattern>${LAST_NAME_JSON}</maskPattern>
+                <maskPattern>${PHONE_JSON}</maskPattern>
+                <maskPattern>${EMAIL_JSON}</maskPattern>
+                <maskPattern>${PASSWORD_JSON}</maskPattern>
+                <maskPattern>${ADDRESS_LINE1_JSON}</maskPattern>
+                <maskPattern>${ADDRESS_LINE2_JSON}</maskPattern>
+                <maskPattern>${CITY_JSON}</maskPattern>
+                <maskPattern>${STATE_JSON}</maskPattern>
+                <pattern>%d{ISO8601}|${serviceName:-SERVICE}|%highlight(%p)|[%thread]|%logger{36} - %highlight(%msg%n)
+                </pattern>
+            </layout>
+        </encoder>
+    </appender>-->
 
     <appender name="Async_Appender" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="FILE"/>
