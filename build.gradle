@@ -13,6 +13,7 @@ buildscript {
 
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+        classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0")
     }
 }
 
@@ -20,6 +21,8 @@ plugins {
     id 'org.springframework.boot' version "$springBootVersion"
     id 'java'
     id 'idea'
+    id 'jacoco'
+    id 'org.sonarqube' version '3.0'
 }
 
 idea {
@@ -136,6 +139,23 @@ test {
         events "passed", "skipped", "failed"
     }
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+sonarqube {
+    properties {
+        property 'sonar.host.url', 'http://localhost:9000'
+    }
+}
+
+tasks['sonarqube'].dependsOn(test)
+tasks['test'].finalizedBy(jacocoTestReport)
+
 
 static String getDate() {
     return ZonedDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
