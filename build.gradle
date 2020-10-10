@@ -14,6 +14,7 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
         classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0")
+        classpath("org.owasp:dependency-check-gradle:6.0.2")
     }
 }
 
@@ -23,6 +24,7 @@ plugins {
     id 'idea'
     id 'jacoco'
     id 'org.sonarqube' version '3.0'
+    id 'com.palantir.docker-compose' version '0.22.1'
 }
 
 idea {
@@ -33,6 +35,7 @@ idea {
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.owasp.dependencycheck'
 
 group = 'com.belum'
 version = '0.0.1-SNAPSHOT'
@@ -61,9 +64,9 @@ bootRun {
     String environment = System.getenv('ENV')
     String logbackAppender = System.getenv('LOGBACK_APPENDER')
     String keyStorePw = System.getenv('KEYSTORE_PW')
-    def appConfig = System.getProperty('app.config', "$projectDir/tmp/config")
+    def appConfig = System.getProperty('app.config', "/tmp/config")
 
-    def logsDir = System.getProperty('logFilePath', "$projectDir/tmp/logs")
+    def logsDir = System.getProperty('logFilePath', "/tmp/logs")
     File logsFolder = new File(logsDir)
     if(!logsFolder.exists()){ logsFolder.mkdirs()}
 
@@ -143,19 +146,24 @@ test {
 jacocoTestReport {
     reports {
         xml.enabled = true
-        html.enabled = true
     }
+}
+
+dependencyCheck {
+    format='ALL'
 }
 
 sonarqube {
     properties {
         property 'sonar.host.url', 'http://localhost:9000'
+        property 'sonar.dependencyCheck.xmlReportPath', 'build/reports/dependency-check-report.xml'
+        property 'sonar.dependencyCheck.htmlReportPath', 'build/reports/dependency-check-report.html'
+        properties["sonar.sources"] += "build.gradle"
     }
 }
 
 tasks['sonarqube'].dependsOn(test)
 tasks['test'].finalizedBy(jacocoTestReport)
-
 
 static String getDate() {
     return ZonedDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
