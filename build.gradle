@@ -156,6 +156,16 @@ dependencyCheck {
 sonarqube {
     properties {
         property 'sonar.host.url', 'http://localhost:9000'
+        property 'sonar.dynamicAnalysis', 'reuseReports'
+        property 'sonar.junit.reportPaths', 'build/test-results/test'
+        property 'sonar.jacoco.reportsPaths', 'build/test-results/test'
+        property 'sonar.java.source', '11'
+        property 'sonar.java.libraries', 'build/libs'
+        property 'sonar.java.binaries', 'build/classes'
+        property 'sonar.java.coveragePlugin', 'jacoco'
+        property 'sonar.verbose', true
+        property 'sonar.sourceEncoding', 'UTF-8'
+        property 'sonar.dependencyCheck.skip', true
         property 'sonar.dependencyCheck.xmlReportPath', 'build/reports/dependency-check-report.xml'
         property 'sonar.dependencyCheck.htmlReportPath', 'build/reports/dependency-check-report.html'
         properties["sonar.sources"] += "build.gradle"
