@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.belum.apitemplate.domain.ClientInfo;
 import com.belum.apitemplate.services.JwtService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +24,8 @@ import java.time.temporal.ChronoUnit;
  * Created by bel-sahn on 7/31/19
  */
 @Service
+@Slf4j
 public class JwtServiceImpl implements JwtService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final Environment env;
 
     public JwtServiceImpl(Environment env) {
@@ -41,10 +42,10 @@ public class JwtServiceImpl implements JwtService {
                 .withSubject(payload.getSubject())
                 .withIssuer(payload.getIssuer())
                 .withIssuedAt(Date.valueOf(LocalDate.now()))
-                .withExpiresAt(Date.valueOf(LocalDate.now().plus(5L, ChronoUnit.MINUTES)))
+                .withExpiresAt(Date.valueOf(LocalDate.now().plus(1L, ChronoUnit.DAYS)))
                 .sign(getAlgorithm());
 
-        LOGGER.info("Created Token :: {}", token);
+        log.info("Created Token :: {}", token);
         return token;
     }
 
@@ -54,7 +55,7 @@ public class JwtServiceImpl implements JwtService {
         verifier.verify(token);
 
         final ClientInfo clientInfo = this.clientInfo(token);
-        LOGGER.debug("Decoded JWT :: {}", clientInfo);
+        log.debug("Decoded JWT :: {}", clientInfo);
         return clientInfo;
     }
 
@@ -69,6 +70,6 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private Algorithm getAlgorithm() {
-        return Algorithm.HMAC256("");
+        return Algorithm.HMAC256("SECRET");
     }
 }
