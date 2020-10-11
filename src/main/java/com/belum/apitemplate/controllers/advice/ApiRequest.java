@@ -1,10 +1,9 @@
 package com.belum.apitemplate.controllers.advice;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
-
-import java.io.Serializable;
 
 /**
  * Created by bel-sahn on 7/29/19
@@ -12,25 +11,14 @@ import java.io.Serializable;
 @JsonPropertyOrder({"code", "message", "timeStamp"})
 @Getter
 @ToString
-public final class ApiRequest implements Serializable {
-//region PROPERTIES
+public final class ApiRequest {
     private String code;
     private String message;
-    private long timeStamp;
-    private static final long serialVersionUID = 1L;
-//endregion
+    private final long timeStamp;
 
-//region CONSTRUCTORS
     public ApiRequest(String code, String message) {
         this.code = code;
         this.message = message;
         this.timeStamp = System.currentTimeMillis();
     }
-//endregion
-
-//region GETTERS/SETTERS
-//endregion
-
-//region HELPER METHODS
-//endregion
 }

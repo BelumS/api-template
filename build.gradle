@@ -9,6 +9,7 @@ buildscript {
         logbackVersion = '1.2.3'
         swaggerVersion = '3.0.0'
         junitVersion = '5.6.0'
+        lombokVersion = '1.18.14'
     }
 
     dependencies {
@@ -110,9 +111,11 @@ dependencies {
     implementation "io.springfox:springfox-swagger2:$swaggerVersion"
     implementation "io.springfox:springfox-swagger-ui:$swaggerVersion"
 
-    compileOnly 'org.projectlombok:lombok'
-    //developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
     testImplementation 'com.github.fakemongo:fongo:2.1.0'
