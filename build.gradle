@@ -5,6 +5,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 buildscript {
     ext {
+        rootPack = 'com.belum.apitemplate'
         springBootVersion = '2.3.1.RELEASE'
         logbackVersion = '1.2.3'
         swaggerVersion = '3.0.0'
@@ -150,6 +151,15 @@ jacocoTestReport {
     reports {
         xml.enabled = true
     }
+
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "$rootPack/aop/*",
+                    "$rootPack/constants/*"
+            ])
+        })
+    }
 }
 
 dependencyCheck {
@@ -162,6 +172,7 @@ sonarqube {
         property 'sonar.dynamicAnalysis', 'reuseReports'
         property 'sonar.junit.reportPaths', 'build/test-results/test'
         property 'sonar.jacoco.reportsPaths', 'build/test-results/test'
+        property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/test/jacocoTestReport.xml'
         property 'sonar.java.source', '11'
         property 'sonar.java.libraries', 'build/libs'
         property 'sonar.java.binaries', 'build/classes'
