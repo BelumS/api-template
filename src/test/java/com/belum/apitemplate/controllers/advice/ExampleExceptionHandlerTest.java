@@ -1,9 +1,9 @@
 package com.belum.apitemplate.controllers.advice;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ExampleExceptionHandlerTest {
     private ExampleExceptionHandler handler;

@@ -8,13 +8,10 @@ import com.belum.apitemplate.domain.ClientInfo;
 import com.belum.apitemplate.services.JwtService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.invoke.MethodHandles;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;

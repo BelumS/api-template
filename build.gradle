@@ -172,7 +172,7 @@ sonarqube {
         property 'sonar.dynamicAnalysis', 'reuseReports'
         property 'sonar.junit.reportPaths', 'build/test-results/test'
         property 'sonar.jacoco.reportsPaths', 'build/test-results/test'
-        property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/test/jacocoTestReport.xml'
+        property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
         property 'sonar.java.source', '11'
         property 'sonar.java.libraries', 'build/libs'
         property 'sonar.java.binaries', 'build/classes'

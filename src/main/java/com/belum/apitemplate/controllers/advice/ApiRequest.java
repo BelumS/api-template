@@ -1,7 +1,6 @@
 package com.belum.apitemplate.controllers.advice;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
 

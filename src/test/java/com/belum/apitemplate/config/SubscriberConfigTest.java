@@ -1,10 +1,10 @@
 package com.belum.apitemplate.config;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.mock.env.MockEnvironment;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class SubscriberConfigTest {
     private SubscriberConfig config;

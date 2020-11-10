@@ -1,9 +1,7 @@
 package com.belum.apitemplate.domain;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.springframework.test.util.ReflectionTestUtils;
