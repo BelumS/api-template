@@ -1,9 +1,9 @@
 package com.belum.apitemplate.controllers.advice;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.*;
-
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
 /**
  * Created by bel-sahn on 7/29/19
@@ -12,20 +12,7 @@ import java.io.Serializable;
 @Getter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
-public final class ApiResponse implements Serializable {
-//region PROPERTIES
-    private ApiRequest request;
-    private transient Object payload;
-    private static final long serialVersionUID = 1L;
-//endregion
-
-//region CONSTRUCTORS
-//endregion
-
-//region GETTERS/SETTERS
-//endregion
-
-//region HELPER METHODS
-//endregion
+public final class ApiResponse {
+    private final ApiRequest request;
+    private final Object payload;
 }

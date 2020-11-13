@@ -5,10 +5,12 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 buildscript {
     ext {
+        rootPack = 'com.belum.apitemplate'
         springBootVersion = '2.3.1.RELEASE'
         logbackVersion = '1.2.3'
         swaggerVersion = '3.0.0'
         junitVersion = '5.6.0'
+        lombokVersion = '1.18.14'
     }
 
     dependencies {
@@ -110,9 +112,11 @@ dependencies {
     implementation "io.springfox:springfox-swagger2:$swaggerVersion"
     implementation "io.springfox:springfox-swagger-ui:$swaggerVersion"
 
-    compileOnly 'org.projectlombok:lombok'
-    //developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
     testImplementation 'com.github.fakemongo:fongo:2.1.0'
@@ -147,6 +151,15 @@ jacocoTestReport {
     reports {
         xml.enabled = true
     }
+
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "$rootPack/aop/*",
+                    "$rootPack/constants/*"
+            ])
+        })
+    }
 }
 
 dependencyCheck {
@@ -159,6 +172,7 @@ sonarqube {
         property 'sonar.dynamicAnalysis', 'reuseReports'
         property 'sonar.junit.reportPaths', 'build/test-results/test'
         property 'sonar.jacoco.reportsPaths', 'build/test-results/test'
+        property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
         property 'sonar.java.source', '11'
         property 'sonar.java.libraries', 'build/libs'
         property 'sonar.java.binaries', 'build/classes'

@@ -11,7 +11,6 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(JUnit4.class)
 public class AppDetailsTest {
-
     private AppDetails details;
 
     @Before
