@@ -1,20 +1,17 @@
 package com.belum.apitemplate.controllers;
 
 import com.belum.apitemplate.domain.HeartBeat;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import static com.belum.apitemplate.constants.TestConstants.*;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@RunWith(JUnit4.class)
-public class HeartBeatControllerTest {
+class HeartBeatControllerTest {
     private HeartBeatController controller;
 
-    @Before
+    @BeforeEach
     public void setup() {
         HeartBeat heartBeat = new HeartBeat();
         ReflectionTestUtils.setField(heartBeat, "applicationName", NAME);
@@ -27,12 +24,12 @@ public class HeartBeatControllerTest {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertNotNull(controller);
     }
 
     @Test
-    public void testAppDetails() {
+    void testAppDetails() {
         assertNotNull(controller.getApplicationDetails());
     }
 }

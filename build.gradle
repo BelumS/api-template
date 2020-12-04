@@ -9,14 +9,14 @@ buildscript {
         springBootVersion = '2.3.1.RELEASE'
         logbackVersion = '1.2.3'
         swaggerVersion = '3.0.0'
-        junitVersion = '5.6.0'
-        lombokVersion = '1.18.14'
+        junitVersion = '5.7.0'
+        lombokVersion = '1.18.16'
     }
 
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
         classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0")
-        classpath("org.owasp:dependency-check-gradle:6.0.2")
+        classpath("org.owasp:dependency-check-gradle:6.0.3")
     }
 }
 
@@ -117,18 +117,18 @@ dependencies {
 
     testCompileOnly "org.projectlombok:lombok:$lombokVersion"
     testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
     testImplementation 'com.github.fakemongo:fongo:2.1.0'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
-    testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'junit'
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 
-    // Only needed to run tests in a version of IntelliJ IDEA that bundles older versions
-    testRuntimeOnly "org.junit.platform:junit-platform-launcher:1.6.0"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$junitVersion"
+    testImplementation(platform("org.junit:junit-bom:$junitVersion"))
+    testImplementation "org.junit.jupiter:junit-jupiter"
 }
 
 processResources {
@@ -141,7 +141,6 @@ processResources {
 
 test {
     useJUnitPlatform()
-
     testLogging {
         events "passed", "skipped", "failed"
     }
