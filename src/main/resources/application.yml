@@ -1,6 +1,6 @@
 spring:
   application:
-    name: api-template
+    name: api-template-gradle
     description: A base template for a RESTful service
     version: "@application.version@"
     timestamp: "@application.buildTimestamp@"

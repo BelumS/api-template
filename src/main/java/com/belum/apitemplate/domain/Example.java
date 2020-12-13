@@ -13,4 +13,12 @@ import lombok.NoArgsConstructor;
 public class Example {
     private String key = "key";
     private String value = "value";
+
+    @Override
+    public String toString() {
+        return "{"
+                + "\"key\":\"" + key + "\","
+                + "\"value\":\"" + value + "\""
+                + "}";
+    }
 }

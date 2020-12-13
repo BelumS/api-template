@@ -1,5 +1,6 @@
 package com.belum.apitemplate.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -22,6 +23,11 @@ import java.util.Collections;
 @EnableCaching
 @EnableRetry
 public class ApplicationConfig {
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
+    }
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
