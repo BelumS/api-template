@@ -13,21 +13,33 @@ buildscript {
         lombokVersion = '1.18.16'
     }
 
+    repositories {
+        jcenter()
+    }
+
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
         classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0")
         classpath("org.owasp:dependency-check-gradle:6.0.3")
+        classpath("org.jfrog.buildinfo:build-info-extractor-gradle:4+")
     }
 }
 
 plugins {
-    id 'org.springframework.boot' version "$springBootVersion"
-    id 'java'
-    id 'idea'
-    id 'jacoco'
+    id 'org.owasp.dependencycheck' version '6.0.3'
     id 'org.sonarqube' version '3.0'
     id 'com.palantir.docker-compose' version '0.22.1'
 }
+
+apply plugin: 'idea'
+apply plugin: 'java'
+//apply plugin: 'war'
+apply plugin: 'jacoco'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'com.jfrog.artifactory'
 
 idea {
     module {
@@ -35,9 +47,6 @@ idea {
         downloadSources = true
     }
 }
-
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'org.owasp.dependencycheck'
 
 group = 'com.belum'
 version = '0.0.1-SNAPSHOT'
@@ -58,7 +67,13 @@ configurations {
 }
 
 repositories {
-    mavenCentral()
+    maven {
+        url "${artifactory_url}/jcenter"
+        credentials {
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+    }
 }
 
 bootRun {
@@ -132,6 +147,66 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation "org.junit.jupiter:junit-jupiter"
+}
+
+task incrementVersion {
+    try {
+        if (System.getProperty("isRelease", "N").equalsIgnoreCase("Y")) {
+            Properties props = new Properties()
+            File file = new File("gradle.properties")
+            props.load(file.newDataInputStream())
+            Integer nextBuildNum = (((props.getProperty('artifactBuildNumber')) as BigDecimal) + 1)
+            props.setProperty('artifactBuildNumber', nextBuildNum.toString())
+            props.store(file.newWriter(), null)
+            props.load(file.newDataInputStream())
+        }
+    } catch (Exception e) {
+        println "Error occurred while incrementing the version ${e.getMessage()}"
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact(file("build/libs/${project.getName()}-{$version}.war"))
+        }
+    }
+}
+
+artifactory {
+    contextUrl = "${artifactory_url}"
+    publish {
+        repository {
+            if (version.toString().contains("SNAPSHOT")) {
+                println "version is $version"
+                repoKey = 'libs-snapshot-local'
+            } else {
+                println "version is $version"
+                repoKey = 'libs-release-local'
+            }
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+        defaults {
+            publications('mavenJava')
+            publishBuildInfo = true
+            publishArtifacts = true
+            publishPom = true
+        }
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            snapshotRepository(url: "${artifactory_url}/libs-snapshot-local") {
+                authentication(userName: artifactory_user, password: artifactory_password)
+            }
+            repository(url: "${artifactory_url}/libs-release-local") {
+                authentication(userName: artifactory_user, password: artifactory_password)
+            }
+        }
+    }
 }
 
 processResources {
