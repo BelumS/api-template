@@ -1,6 +1,6 @@
 rootProject.name = 'api-template-gradle'
 
-include "shared", "api", "services:webservice"
+/*include "shared", "api", "services:webservice"
 
 ext.isPush = getProperty('gradle.cache.push')
 
@@ -16,4 +16,4 @@ buildCache {
         }
         push = isPush
     }
-}
+}*/

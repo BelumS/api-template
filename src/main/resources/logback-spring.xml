@@ -9,7 +9,7 @@
     <property name="maxHistory" value="${logback.maxHistory:-3}"/>
     <property name="totalSizeCap" value="${logback.totalSizeCap:-300MB}"/>
     <property name="logLevel" value="${logback.logLevel:-INFO}"/>
-    <property name="appender" value="${logback.appender:-Async-Appender}"/>
+    <property name="appender" value="${logback.appender:-Async_Appender}"/>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logFilePath}/api-template.log</file>

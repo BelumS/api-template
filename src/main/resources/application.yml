@@ -5,7 +5,7 @@ spring:
     version: "@application.version@"
     timestamp: "@application.buildTimestamp@"
     branch: "@application.branch@"
-    environment: ${ENV}
+    environment: ${ENV:local}
   profiles.active: default
   kafka:
     bootstrap-servers:
@@ -21,10 +21,10 @@ api:
     v2: "v2"
 
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
   servlet:
     contextPath: "/${spring.application.name}"
 
 logback:
-  appender: STDOUT_COLOR
+  appender: ${LOGBACK_APPENDER:STDOUT}
   level: DEBUG

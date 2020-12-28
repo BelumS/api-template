@@ -14,7 +14,8 @@ buildscript {
     }
 
     repositories {
-        jcenter()
+        //jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -67,13 +68,14 @@ configurations {
 }
 
 repositories {
-    maven {
+    mavenCentral()
+/*    maven {
         url "${artifactory_url}/jcenter"
         credentials {
             username = "${artifactory_user}"
             password = "${artifactory_password}"
         }
-    }
+    }*/
 }
 
 bootRun {
@@ -98,7 +100,10 @@ bootRun {
             "-Dapp.config=$appConfig",
             "-Dserver.port=$serverPort",
             "-Dlogback.appender=$logbackAppender",
-            "-Dwebapp.baseUrl=http://localhost:$serverPort/",
+            "-Dhttp.proxyHost=http://localhost/",
+            "-Dhttps.proxyHost=http://localhost/",
+            "-Dhttp.proxyPort=$serverPort",
+            "-Dhttps.proxyPort=$serverPort",
             "-Djavax.net.ssl.trustStore=$projectDir/security/api_truststore.jks",
             "-Djavax.net.ssl.keyStore=$projectDir/security/api_keystore.jks",
             "-Djavax.net.ssl.trustStorePassword=$keyStorePw",
@@ -173,7 +178,7 @@ publishing {
     }
 }
 
-artifactory {
+/*artifactory {
     contextUrl = "${artifactory_url}"
     publish {
         repository {
@@ -194,9 +199,9 @@ artifactory {
             publishPom = true
         }
     }
-}
+}*/
 
-uploadArchives {
+/*uploadArchives {
     repositories {
         mavenDeployer {
             snapshotRepository(url: "${artifactory_url}/libs-snapshot-local") {
@@ -207,7 +212,7 @@ uploadArchives {
             }
         }
     }
-}
+}*/
 
 processResources {
     filter ReplaceTokens, tokens: [
